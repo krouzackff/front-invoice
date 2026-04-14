@@ -1,0 +1,35 @@
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 10vh;
+    min-height: 60px;
+    background-color: var(--color-principal);
+}
+
+.top-bar ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    cursor: pointer;
+}
+
+.top-bar ul li {
+    color: white;
+}
+
+.top-bar ul li:hover {
+    transform: scale(1.05);
+    transform: translateY(-5px);
+}
+
+.enrouter {
+    display: flex;
+    margin: 2vh 5vw 2vh 5vw;
+    justify-content: center;
+    align-items: center;
+    width: 90vw;
+    height: 86vh;
+}

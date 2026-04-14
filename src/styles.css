@@ -1,1 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: rgb(45, 45, 45);
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-principal: #004fce;
+    --color-secundario: #222d34;
+}
+
+input {
+    border: 1px solid rgb(57, 57, 57);
+    padding: 5px;
+    border: silver 1px solid;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.2s ease;
+    padding-left: 10px;
+    overflow-x: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #484848;
+}
+
+input:hover {
+    outline: 2px solid var(--color-principal);
+}
+
+input:focus {
+    outline: 2px solid var(--color-principal);
+    transform: scale(1.05);
+}
+
+.inputLupa {
+    background: url('/magnifying-glass-solid-full.svg') no-repeat 10px center;
+    background-size: 16px 16px;
+    padding-left: 30px !important;
+}
+
+button {
+    background: var(--color-principal);
+}
