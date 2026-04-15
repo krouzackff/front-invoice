@@ -1,25 +1,73 @@
+<<<<<<< Updated upstream
 <div class="container">
-    <h1>Registro Método de Pago</h1>
 
-    <label>ID Nacional</label>
-
-    <div class="row">
-        <input type="text" placeholder="Ingrese ID...">
-        <button class="btn-search">Buscar</button>
+    <!-- Encabezado -->
+    <div class="page-header">
+        <h1>BÚSQUEDA DE CLIENTE</h1>
+        <p class="subtitle">Módulo de Asesor Comercial</p>
     </div>
 
-    <div class="client-box">
-        Cliente encontrado: <strong>Nombre del Cliente</strong>
+    <hr class="divider">
+
+    <!-- Campo de búsqueda por ID Nacional -->
+    <div class="search-section">
+        <label for="input-id-nacional">ID NACIONAL (NÚMERO DE DOCUMENTO)</label>
+        <div class="search-row">
+            <input
+                id="input-id-nacional"
+                type="text"
+                placeholder="Ej: 12345678"
+                class="inputLupa"
+            >
+            <button id="btn-buscar" class="btn-buscar">BUSCAR</button>
+        </div>
     </div>
 
-    <div class="section-title">
-        Seleccionar Método de Pago
+    <!-- Mensaje de error (visible cuando no se encuentra el cliente) -->
+    <div class="error-message" id="error-message">
+        <span class="error-icon">⊘</span>
+        Cliente no encontrado. Por favor registre al cliente primero.
     </div>
 
-    <div class="payment-options">
-        <button class="option active">Contra Entrega</button>
-        <button class="option">Cartera Comercial</button>
+    <!-- Resultado de búsqueda -->
+    <div class="result-section">
+        <p class="result-label">RESULTADO DE BÚSQUEDA</p>
+
+        <div class="client-card">
+            <div class="client-card-left">
+                <p class="data-label">ID DE BASE DE DATOS</p>
+                <p class="data-id">100</p>
+            </div>
+
+            <div class="client-card-divider"></div>
+
+            <div class="client-card-right">
+                <div class="data-row">
+                    <div class="data-group">
+                        <p class="data-label">ID NACIONAL</p>
+                        <p class="data-value">12345678</p>
+                    </div>
+                    <div class="data-group">
+                        <p class="data-label">TELÉFONO</p>
+                        <p class="data-value">+57 300 123 4567</p>
+                    </div>
+                </div>
+                <div class="data-group">
+                    <p class="data-label">NOMBRE COMPLETO</p>
+                    <p class="data-value data-name">JUAN PÉREZ RODRÍGUEZ</p>
+                </div>
+                <div class="data-group">
+                    <p class="data-label">DIRECCIÓN</p>
+                    <p class="data-value data-address">Calle 123 # 45 - 67, Edificio Horizonte, Apto 402</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <button id="btn-agregar-metodo-pago" class="btn-action">AGREGAR METODO DE PAGO</button>
+        </div>
     </div>
 
-    <button class="btn-save">Guardar</button>
 </div>
+=======
+>>>>>>> Stashed changes

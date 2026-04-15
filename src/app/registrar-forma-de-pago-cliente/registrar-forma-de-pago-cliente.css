@@ -6,10 +6,6 @@
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
-button {
-    background: var(--color-principal);
-}
-
 h1 {
     text-align: center;
     font-size: 28px;
@@ -45,23 +41,6 @@ input:focus {
     outline: none;
 }
 
-button {
-    cursor: pointer;
-    border: none;
-    transition: 0.3s;
-}
-
-.btn-search {
-    padding: 14px 20px;
-    background: var(--color-principal);
-    color: white;
-    border-radius: 12px;
-    font-weight: bold;
-}
-
-.btn-search:hover {
-    background: var(--color-principal);
-}
 
 .client-box {
     background: #f8f9fa;
@@ -93,22 +72,8 @@ button {
     font-weight: 600;
 }
 
-
-
-.option:hover {
-    transform: translateY(-2px);
-}
-
 .btn-save {
     width: 100%;
-    padding: 16px;
-    background: #111;
-    color: white;
-    border-radius: 14px;
     font-size: 18px;
     font-weight: bold;
-}
-
-.btn-save:hover {
-    background: #333;
 }

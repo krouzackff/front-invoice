@@ -1,2 +1,45 @@
-<p>consultar-liquidaciones-personales works!</p>
-<input type="text" class="inputLupa">
+<div class="dashboard">
+    <input type="date" [(ngModel)]="fechaDeInicio">
+    <input type="date" [(ngModel)]="fechaDeFin">
+    <button>Buscar</button>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>FORMA DE PAGO</th>
+                <th>ESTADO</th>
+                <th>FECHA DE CREACION</th>
+                <th>FECHA DE ENTREGA</th>
+                <th>TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>contra entrega</td>
+                <td>entregado</td>
+                <td>2/5/2026</td>
+                <td>3/5/2026</td>
+                <td>456.900</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>contra entrega</td>
+                <td>entregado</td>
+                <td>2/5/2026</td>
+                <td>3/5/2026</td>
+                <td>342.900</td>
+            </tr>
+            <tr *ngFor="let liquidacion of liquidaciones">
+                <td>{{ liquidacion.id }}</td>
+                <td>{{ liquidacion.formaDePago }}</td>
+                <td>{{ liquidacion.estado }}</td>
+                <td>{{ liquidacion.fechaDeCreacion }}</td>
+                <td>{{ liquidacion.total }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
