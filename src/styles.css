@@ -42,4 +42,16 @@ input:focus {
 
 button {
     background: var(--color-principal);
+    padding: 14px 20px;
+    color: white;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+
 }

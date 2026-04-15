@@ -51,17 +51,6 @@ button {
     transition: 0.3s;
 }
 
-.btn-search {
-    padding: 14px 20px;
-    background: var(--color-principal);
-    color: white;
-    border-radius: 12px;
-    font-weight: bold;
-}
-
-.btn-search:hover {
-    background: var(--color-principal);
-}
 
 .client-box {
     background: #f8f9fa;
@@ -93,22 +82,8 @@ button {
     font-weight: 600;
 }
 
-
-
-.option:hover {
-    transform: translateY(-2px);
-}
-
 .btn-save {
     width: 100%;
-    padding: 16px;
-    background: #111;
-    color: white;
-    border-radius: 14px;
     font-size: 18px;
     font-weight: bold;
-}
-
-.btn-save:hover {
-    background: #333;
 }
