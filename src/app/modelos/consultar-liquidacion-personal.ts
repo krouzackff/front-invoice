@@ -1,8 +1,10 @@
-export interface ConsultarLiquidacionPersonal {
-    id: number;
-    formaDePago: string;
-    estado: string;
-    fechaDeCreacion: Date;
-    fechaDeEntrega: Date;
-    valorTotal: number;
+export interface LiquidacionClienteResponse {
+    idLiquidacion: number;
+    idPedido: number;
+    idCliente: number;
+    formaPago: string;
+    estadoLiquidacion: string;
+    fechaLiquidacion: Date;
+    uriPdf: string;
+    montoLiquidado: number;
 }

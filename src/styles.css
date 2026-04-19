@@ -69,7 +69,7 @@ table{
 }
 
 th,td{
-    height: 40px;
+    height: 60px;
     align-items: center;
     text-align: center;
 }
@@ -78,12 +78,18 @@ th{
     border-bottom: var(--color-principal) 2px solid;
     font-weight: 800;
 }
+
+table th:nth-child(1),
+table td:nth-child(1) {
+  width: 4vw; /* Proveedor */
+}
+
 tbody{
     border-radius: 15px;
 }
 
 tbody tr:nth-child(odd){
-    background-color: #eaeaea;
+    background-color: #ece9f6;
 }
 
 tbody tr:hover td, 
@@ -97,4 +103,34 @@ tbody tr:hover th {
     flex-direction: row;
     gap: 1vw;
     margin-bottom: 30px;
+}
+
+.badge{
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* Forma pago */
+.cuenta{
+    background: #e8f0ff;
+    color: #2563eb;
+}
+
+.efectivo{
+    background: #dcfce7;
+    color: #15803d;
+}
+
+/* Estado */
+.pagada{
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.pendiente{
+    background: #fff7d6;
+    color: #b45309;
 }
