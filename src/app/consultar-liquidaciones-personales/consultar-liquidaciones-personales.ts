@@ -21,9 +21,11 @@ export class ConsultarLiquidacionesPersonales implements OnInit {
     this.cargarLiquidaciones();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.cargarLiquidaciones();
+  }
 
-  private cargarLiquidaciones(): void {
+  public cargarLiquidaciones(): void {
     this.servicio.consultarLiquidaciones(this.idCliente, 0, 20)
       .subscribe({
         next: (data) => {

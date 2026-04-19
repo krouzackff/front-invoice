@@ -1,44 +1,50 @@
-<div class="dashboard">
-    <input type="date" [(ngModel)]="fechaInicio">
-    <input type="date" [(ngModel)]="fechaFin">
-    <button>Buscar</button>
-</div>
+<div class="app">
+    <div class="dashboard">
+        <input type="date" [(ngModel)]="fechaInicio">
+        <input type="date" [(ngModel)]="fechaFin">
+        <button (click)="cargarLiquidaciones()">Buscar</button>
+    </div>
 
-<div class="table-container">
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>ID PEDIDO</th>
-                <th>ID CLIENTE</th>
-                <th>FORMA DE PAGO</th>
-                <th>ESTADO</th>
-                <th>FECHA DE LIQUIDACION</th>
-                <th>MONTO LIQUIDADO</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngIf="liquidaciones.length === 0">
-                <td colspan="8" style="text-align: center;">No hay liquidaciones para mostrar</td>
-            </tr>
-            <tr *ngFor="let liquidacion of liquidaciones">
-                <td>{{ liquidacion.idLiquidacion }}</td>
-                <td>{{ liquidacion.idPedido }}</td>
-                <td>{{ liquidacion.idCliente }}</td>
-                <td>{{ liquidacion.formaPago }}</td>
-                <td>
-                    <span class="badge estado"
-                            [ngClass]="{
-                                'pagada': liquidacion.estadoLiquidacion === 'PAGADA',
-                                'pendiente': liquidacion.estadoLiquidacion === 'PENDIENTE'
-                            }">
-                            {{ liquidacion.estadoLiquidacion }}
-                    </span>
-                </td>
-                <td>{{ liquidacion.fechaLiquidacion | date:'yyyy/MM/dd' }}</td>  <!-- ← Formato yyyy/MM/dd -->
+    <div class="table-container up-radius">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ID PEDIDO</th>
+                    <th>ID CLIENTE</th>
+                    <th>FORMA DE PAGO</th>
+                    <th>ESTADO</th>
+                    <th>FECHA DE LIQUIDACION</th>
+                    <th>MONTO LIQUIDADO</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="table-container down-radius">
+        <table>
+            <tbody>
+                <tr *ngIf="liquidaciones.length === 0">
+                    <td colspan="8" style="text-align: center;">No hay liquidaciones para mostrar</td>
+                </tr>
+                <tr *ngFor="let liquidacion of liquidaciones">
+                    <td>{{ liquidacion.idLiquidacion }}</td>
+                    <td>{{ liquidacion.idPedido }}</td>
+                    <td>{{ liquidacion.idCliente }}</td>
+                    <td>{{ liquidacion.formaPago }}</td>
+                    <td>
+                        <span class="badge estado"
+                                [ngClass]="{
+                                    'pagada': liquidacion.estadoLiquidacion === 'PAGADA',
+                                    'pendiente': liquidacion.estadoLiquidacion === 'PENDIENTE'
+                                }">
+                                {{ liquidacion.estadoLiquidacion }}
+                        </span>
+                    </td>
+                    <td>{{ liquidacion.fechaLiquidacion | date:'yyyy/MM/dd' }}</td>  <!-- ← Formato yyyy/MM/dd -->
 
-                <td>{{ liquidacion.montoLiquidado | number:'1.0-0' }}</td>  <!-- ← Divide miles con punto -->
-            </tr>
-        </tbody>
-    </table>
+                    <td>{{ liquidacion.montoLiquidado | number:'1.0-0' }}</td>  <!-- ← Divide miles con punto -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

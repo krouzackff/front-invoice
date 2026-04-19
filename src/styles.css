@@ -1,10 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 * {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: rgb(45, 45, 45);
+    color: rgb(59, 43, 73);
     font-weight: 500;
     margin: 0;
     padding: 0;
+}
+
+body {
+    background-color: #ebebeb;
 }
 
 :root {
@@ -61,7 +65,7 @@ table{
     table-layout: fixed;
     border: none;
     font-size: bold;
-    color: #484848;
+    color: #9b2a2a;
     width: 100%;
     height: 100%;
     overflow-y: auto;
@@ -89,7 +93,7 @@ tbody{
 }
 
 tbody tr:nth-child(odd){
-    background-color: #ece9f6;
+    background-color: #edebf3;
 }
 
 tbody tr:hover td, 

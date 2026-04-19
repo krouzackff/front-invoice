@@ -1,3 +1,10 @@
+.app{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .top-bar {
     display: flex;
     align-items: center;
@@ -28,9 +35,15 @@
 
 .enrouter {
     display: flex;
-    margin: 2vh 5vw 2vh 5vw;
+    margin: 4vh 5vw 2vh 5vw;
     justify-content: center;
     align-items: start;
-    width: 90vw;
-    height: 86vh;
+    width: 70vw;
+    align-self: center;
+    justify-self: center;
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    min-height: 70vh;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
