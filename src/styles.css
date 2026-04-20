@@ -1,10 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 * {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: rgb(45, 45, 45);
+    color: rgb(59, 43, 73);
     font-weight: 500;
     margin: 0;
     padding: 0;
+}
+
+body {
+    background-color: #ebebeb;
 }
 
 :root {
@@ -61,7 +65,7 @@ table{
     table-layout: fixed;
     border: none;
     font-size: bold;
-    color: #484848;
+    color: #9b2a2a;
     width: 100%;
     height: 100%;
     overflow-y: auto;
@@ -69,7 +73,7 @@ table{
 }
 
 th,td{
-    height: 40px;
+    height: 60px;
     align-items: center;
     text-align: center;
 }
@@ -78,12 +82,18 @@ th{
     border-bottom: var(--color-principal) 2px solid;
     font-weight: 800;
 }
+
+table th:nth-child(1),
+table td:nth-child(1) {
+  width: 4vw; /* Proveedor */
+}
+
 tbody{
     border-radius: 15px;
 }
 
 tbody tr:nth-child(odd){
-    background-color: #eaeaea;
+    background-color: #edebf3;
 }
 
 tbody tr:hover td, 
@@ -97,4 +107,34 @@ tbody tr:hover th {
     flex-direction: row;
     gap: 1vw;
     margin-bottom: 30px;
+}
+
+.badge{
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* Forma pago */
+.cuenta{
+    background: #e8f0ff;
+    color: #2563eb;
+}
+
+.efectivo{
+    background: #dcfce7;
+    color: #15803d;
+}
+
+/* Estado */
+.pagada{
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.pendiente{
+    background: #fff7d6;
+    color: #b45309;
 }
