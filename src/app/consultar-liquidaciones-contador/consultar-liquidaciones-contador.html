@@ -1,45 +1,50 @@
-<div class="dashboard">
-    <input type="date" [(ngModel)]="fechaDeInicio">
-    <input type="date" [(ngModel)]="fechaDeFin">
-    <button>Buscar</button>
-</div>
+<div class="app">
 
-<div class="table-container">
+  <!-- FILTROS -->
+  <div class="dashboard">
+    <input type="text" placeholder="Tipo" [(ngModel)]="tipo">
+
+    <input type="number" placeholder="ID Sujeto" [(ngModel)]="idSujeto">
+
+    <input type="date" [(ngModel)]="fechaDesde">
+    <input type="date" [(ngModel)]="fechaHasta">
+
+    <button (click)="cargar()">Buscar</button>
+  </div>
+
+  <!-- TABLA -->
+  <div class="table-container">
     <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>TRANSPORTISTA</th>
-                <th>FORMA DE PAGO</th>
-                <th>ESTADO</th>
-                <th>VALOR FLETE</th>
-                <th>TOTAL</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Mauricio</td>
-                <td>contra entrega</td>
-                <td>liquidado</td>
-                <td>15.000</td>
-                <td>456.900</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Manuel</td>
-                <td>contra entrega</td>
-                <td>en cobro</td>
-                <td>20.000</td>
-                <td>342.900</td>
-            </tr>
-            <tr *ngFor="let liquidacion of liquidaciones">
-                <td>{{ liquidacion.id }}</td>
-                <td>{{ liquidacion.formaDePago }}</td>
-                <td>{{ liquidacion.estado }}</td>
-                <td>{{ liquidacion.fechaDeCreacion }}</td>
-                <td>{{ liquidacion.total }}</td>
-            </tr>
-        </tbody>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>ID PEDIDO</th>
+          <th>TIPO</th>
+          <th>ID SUJETO</th>
+          <th>MONTO</th>
+          <th>FECHA</th>
+          <!-- <th>DOCUMENTO</th> -->
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngIf="liquidaciones.length === 0">
+          <td colspan="7" style="text-align:center;">
+            No hay datos
+          </td>
+        </tr>
+
+        <tr *ngFor="let l of liquidaciones">
+          <td>{{ l.idLiquidacion }}</td>
+          <td>{{ l.idPedido }}</td>
+          <td>{{ l.tipoLiquidacion }}</td>
+          <td>{{ l.idSujeto }}</td>
+          <td>{{ l.monto | number:'1.0-0' }}</td>
+          <td>{{ l.fechaLiquidacion | date:'yyyy/MM/dd' }}</td>
+          <!-- <td>{{ l.uriDocumento }}</td> -->
+        </tr>
+      </tbody>
     </table>
+  </div>
+
 </div>

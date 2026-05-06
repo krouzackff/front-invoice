@@ -1,12 +1,20 @@
-<div class="top-bar">
-    <ul>
-        <li (click)="navegarAPagina('consultar-liquidaciones-personales')">cons. liq. personales</li>
-        <li (click)="navegarAPagina('consultar-liquidaciones-transportista')">cons. liq. transportista</li>
-        <li (click)="navegarAPagina('consultar-liquidaciones-contador')">cons. liq. contador</li>
-        <li (click)="navegarAPagina('consultar-id-nacional')">cons. id nacional</li>
-        <li (click)="navegarAPagina('registrar-forma-de-pago')">reg. forma de pago</li>
-    </ul>
+<div class="top-bar">   
+    <span class="tooltip-icon" data-tooltip="consultar liquidaciones personales">
+        <img src="person-solid-full.svg" alt="Usuario" class="icono" (click)="navegarAPagina('consultar-liquidaciones-personales')">
+    </span>
+    <span class="tooltip-icon" data-tooltip="consultar liquidaciones transportista">
+        <img src="truck-solid-full.svg" alt="Usuario" class="icono" (click)="navegarAPagina('consultar-liquidaciones-transportista')">
+    </span>
+    <span class="tooltip-icon" data-tooltip="consultar liquidaciones contador">
+        <img src="file-invoice-solid-full.svg" alt="Usuario" class="icono" (click)="navegarAPagina('consultar-liquidaciones-contador')">
+    </span>
+    <span class="tooltip-icon" data-tooltip="consultar id nacional">
+        <img src="id-badge-solid-full.svg" alt="Usuario" class="icono" (click)="navegarAPagina('consultar-id-nacional')">
+    </span>
+    <span class="tooltip-icon" data-tooltip="registrar forma de pago">
+        <img src="cash-register-solid-full.svg" alt="Usuario" class="icono" (click)="navegarAPagina('registrar-forma-de-pago')">
+    </span>
 </div>
 <div class="enrouter">
     <router-outlet></router-outlet>
-</div>
+</div>|

@@ -30,7 +30,15 @@
                     <td>{{ liquidacion.idLiquidacion }}</td>
                     <td>{{ liquidacion.idPedido }}</td>
                     <td>{{ liquidacion.idCliente }}</td>
-                    <td>{{ liquidacion.formaPago }}</td>
+                    <td>
+                        <span class="badge forma-pago"
+                                [ngClass]="{
+                                    'cuenta': liquidacion.formaPago === 'CUENTA',
+                                    'efectivo': liquidacion.formaPago === 'EFECTIVO'
+                                }">
+                                {{ liquidacion.formaPago }}
+                        </span>
+                    </td>
                     <td>
                         <span class="badge estado"
                                 [ngClass]="{
