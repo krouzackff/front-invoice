@@ -1,6 +1,7 @@
-export interface ConsultarLiquidacionTransportista {
-    id: number;
-    estado: string;
-    efectividad: number;
-    total: number;
+export interface LiquidacionTransportistaResponse {
+    idLiquidacion: number;
+    idPedido: number;
+    idTransportista: number;
+    montoCalculado: number;
+    fechaLiquidacion: string; 
 }
