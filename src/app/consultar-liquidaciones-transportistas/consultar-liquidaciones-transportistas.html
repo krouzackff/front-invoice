@@ -1,38 +1,33 @@
+<!-- consultar-liquidaciones-transportistas.html -->
 <div class="dashboard">
     <input type="date" [(ngModel)]="fechaDeInicio">
     <input type="date" [(ngModel)]="fechaDeFin">
-    <button>Buscar</button>
+    <button (click)="cargarLiquidaciones()">Buscar</button>
 </div>
 
 <div class="table-container">
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>ESTADO</th>
-                <th>EFECTIVIDAD</th>
-                <th>TOTAL</th>
+                <th>ID LIQUIDACIÓN</th>
+                <th>ID PEDIDO</th>
+                <th>ID TRANSPORTISTA</th>
+                <th>MONTO CALCULADO</th>
+                <th>FECHA LIQUIDACIÓN</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>liquidado</td>
-                <td>100%</td>
-                <td>15.000</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>en cobro</td>
-                <td>100%</td>
-                <td>20.900</td>
+            <tr *ngIf="liquidaciones.length === 0">
+                <td colspan="5" style="text-align: center;">
+                    No hay liquidaciones para mostrar
+                </td>
             </tr>
             <tr *ngFor="let liquidacion of liquidaciones">
-                <td>{{ liquidacion.id }}</td>
-                <td>{{ liquidacion.formaDePago }}</td>
-                <td>{{ liquidacion.estado }}</td>
-                <td>{{ liquidacion.fechaDeCreacion }}</td>
-                <td>{{ liquidacion.total }}</td>
+                <td>{{ liquidacion.idLiquidacion }}</td>
+                <td>{{ liquidacion.idPedido }}</td>
+                <td>{{ liquidacion.idTransportista }}</td>
+                <td>{{ liquidacion.montoCalculado | number:'1.2-2' }}</td>
+                <td>{{ liquidacion.fechaLiquidacion | date:'yyyy/MM/dd' }}</td>
             </tr>
         </tbody>
     </table>
