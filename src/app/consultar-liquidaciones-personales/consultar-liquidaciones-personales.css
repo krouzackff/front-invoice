@@ -18,3 +18,33 @@
 table td:nth-child(7) {
   font-weight: bold;
 }
+
+.badge{
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* Forma pago */
+.cuenta{
+    background: #e8f0ff;
+    color: #2563eb;
+}
+
+.efectivo{
+    background: #dcfce7;
+    color: #15803d;
+}
+
+/* Estado */
+.pagada{
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.pendiente{
+    background: #fff7d6;
+    color: #b45309;
+}
