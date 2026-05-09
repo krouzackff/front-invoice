@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ServicioLiquidacionTransportista } from '../servicios/servicio-liquidacion-transportista';
-import { LiquidacionTransportistaResponse } from '../modelos/consultar-liquidacion-transportista';
+import { LiquidacionTransportistaResponse } from '../modelos/response/consultar-liquidacion-transportista';
 
 @Component({
   selector: 'app-consultar-liquidaciones-transportistas',

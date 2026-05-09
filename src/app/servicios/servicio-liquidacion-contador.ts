@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LiquidacionContadorResponse } from '../modelos/liquidacion-contador-response';
+import { LiquidacionContadorResponse } from '../modelos/response/liquidacion-contador-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ServicioLiquidacionContable {
 
-  private apiUrl = 'http://localhost:8080/api/v1/liquidaciones';
+  private apiUrl = `${environment.apiUrl}/liquidaciones`;
 
   constructor(private http: HttpClient) {}
 

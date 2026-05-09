@@ -1,25 +1,76 @@
+<!-- registrar-forma-de-pago-cliente.html -->
 <div class="container">
     <h1>Registro Método de Pago</h1>
 
-    <label>ID Nacional</label>
-
+    <!-- Sección de búsqueda -->
+    <label>ID Nacional o ID de Cliente</label>
     <div class="row">
-        <input type="text" placeholder="Ingrese ID...">
-        <button class="btn-search">Buscar</button>
+        <input 
+            type="text" 
+            placeholder="Ingrese cédula o ID..." 
+            [(ngModel)]="identificador"
+            (keyup.enter)="buscarCliente()"
+        >
+        <button class="btn-search" (click)="buscarCliente()" [disabled]="cargando">
+            {{ cargando ? 'Buscando...' : 'Buscar' }}
+        </button>
     </div>
 
-    <div class="client-box">
-        Cliente encontrado: <strong>Nombre del Cliente</strong>
+    <!-- Cliente encontrado -->
+    <div class="client-box" *ngIf="cliente">
+        Cliente encontrado: <strong>{{ cliente.nombre }}</strong>
+        <br>
+        <small>ID: {{ cliente.idCliente }} | Cédula: {{ cliente.idNacional }}</small>
     </div>
 
-    <div class="section-title">
-        Seleccionar Método de Pago
+    <!-- Mensaje de error -->
+    <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
     </div>
 
-    <div class="payment-options">
-        <button class="option">Contra Entrega</button>
-        <button class="option">Cartera Comercial</button>
+    <!-- Sección de método de pago -->
+    <div class="payment-section" *ngIf="cliente && mostrarFormularioPago">
+        <div class="section-title">
+            Seleccionar Método de Pago
+        </div>
+
+        <div class="payment-options">
+            <button 
+                class="option" 
+                [class.selected]="formaPagoSeleccionada === 'CONTRA_ENTREGA'"
+                (click)="seleccionarFormaPago('CONTRA_ENTREGA')">
+                Contra Entrega
+            </button>
+            <button 
+                class="option" 
+                [class.selected]="formaPagoSeleccionada === 'CARTERA_COMERCIAL'"
+                (click)="seleccionarFormaPago('CARTERA_COMERCIAL')">
+                Cartera Comercial
+            </button>
+        </div>
+
+        <!-- Mostrar forma de pago actual si ya tiene -->
+        <div class="current-payment" *ngIf="tieneFormaPago && formaPagoActual">
+            <p>⚠️ Forma de pago actual: <strong>{{ formaPagoActual.formaPago }}</strong></p>
+            <p class="warning">Al guardar se actualizará la forma de pago</p>
+        </div>
+
+        <button class="btn-save" (click)="guardarFormaPago()" [disabled]="!formaPagoSeleccionada || guardando">
+            {{ guardando ? 'Guardando...' : (tieneFormaPago ? 'ACTUALIZAR' : 'GUARDAR') }}
+        </button>
     </div>
 
-    <button class="btn-save">Guardar</button>
+    <!-- Mensaje cuando el cliente ya tiene forma de pago -->
+    <div class="info-message" *ngIf="cliente && tieneFormaPago && !mostrarFormularioPago">
+        <p>✓ El cliente ya tiene una forma de pago registrada</p>
+        <p><strong>{{ formaPagoActual?.formaPago }}</strong></p>
+        <button class="btn-cambiar" (click)="mostrarFormularioPago = true">
+            Cambiar forma de pago
+        </button>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading" *ngIf="cargando && !cliente">
+        <p>Buscando cliente...</p>
+    </div>
 </div>
