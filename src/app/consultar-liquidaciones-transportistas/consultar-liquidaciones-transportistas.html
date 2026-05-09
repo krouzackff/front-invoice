@@ -5,7 +5,7 @@
     <button (click)="cargarLiquidaciones()">Buscar</button>
 </div>
 
-<div class="table-container">
+<div class="table-container up-radius">
     <table>
         <thead>
             <tr>
@@ -16,6 +16,10 @@
                 <th>FECHA LIQUIDACIÓN</th>
             </tr>
         </thead>
+    </table>
+</div>
+<div class="table-container down-radius">
+    <table>
         <tbody>
             <tr *ngIf="liquidaciones.length === 0">
                 <td colspan="5" style="text-align: center;">
