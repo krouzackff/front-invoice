@@ -13,7 +13,7 @@
   </div>
 
   <!-- TABLA -->
-  <div class="table-container">
+  <div class="table-container up-radius">
     <table>
       <thead>
         <tr>
@@ -26,7 +26,10 @@
           <!-- <th>DOCUMENTO</th> -->
         </tr>
       </thead>
-
+    </table>
+  </div>
+  <div class="table-container down-radius">
+    <table>
       <tbody>
         <tr *ngIf="liquidaciones.length === 0">
           <td colspan="7" style="text-align:center;">
