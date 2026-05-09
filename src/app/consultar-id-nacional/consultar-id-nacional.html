@@ -1,7 +1,6 @@
-<<<<<<< Updated upstream
+<!-- consultar-id-nacional.html -->
 <div class="container">
 
-    <!-- Encabezado -->
     <div class="page-header">
         <h1>BÚSQUEDA DE CLIENTE</h1>
         <p class="subtitle">Módulo de Asesor Comercial</p>
@@ -9,34 +8,44 @@
 
     <hr class="divider">
 
-    <!-- Campo de búsqueda por ID Nacional -->
     <div class="search-section">
-        <label for="input-id-nacional">ID NACIONAL (NÚMERO DE DOCUMENTO)</label>
+        <label for="input-identificador">ID NACIONAL O ID DE CLIENTE</label>
         <div class="search-row">
             <input
-                id="input-id-nacional"
+                id="input-identificador"
                 type="text"
-                placeholder="Ej: 12345678"
+                placeholder="Ej: 12345678 (cédula) o 100 (ID)"
                 class="inputLupa"
+                [(ngModel)]="identificador"
+                (keyup.enter)="buscarCliente()"
             >
-            <button id="btn-buscar" class="btn-buscar">BUSCAR</button>
+            <button class="btn-buscar" (click)="buscarCliente()">BUSCAR</button>
         </div>
+        <small class="search-hint">Puedes buscar por cédula o por ID de base de datos</small>
     </div>
 
-    <!-- Mensaje de error (visible cuando no se encuentra el cliente) -->
-    <div class="error-message" id="error-message">
+    <!-- Indicador de carga -->
+    <div class="loading-message" *ngIf="cargando">
+        <span>Buscando cliente...</span>
+        <span class="second-attempt" *ngIf="buscandoEnSegundoEndpoint">
+            (No encontrado por ID, intentando por cédula...)
+        </span>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div class="error-message" *ngIf="errorMessage && !cargando">
         <span class="error-icon">⊘</span>
-        Cliente no encontrado. Por favor registre al cliente primero.
+        {{ errorMessage }}
     </div>
 
     <!-- Resultado de búsqueda -->
-    <div class="result-section">
+    <div class="result-section" *ngIf="cliente && !cargando">
         <p class="result-label">RESULTADO DE BÚSQUEDA</p>
 
         <div class="client-card">
             <div class="client-card-left">
                 <p class="data-label">ID DE BASE DE DATOS</p>
-                <p class="data-id">100</p>
+                <p class="data-id">{{ cliente.idCliente }}</p>
             </div>
 
             <div class="client-card-divider"></div>
@@ -45,29 +54,27 @@
                 <div class="data-row">
                     <div class="data-group">
                         <p class="data-label">ID NACIONAL</p>
-                        <p class="data-value">12345678</p>
+                        <p class="data-value">{{ cliente.idNacional }}</p>
                     </div>
                     <div class="data-group">
                         <p class="data-label">TELÉFONO</p>
-                        <p class="data-value">+57 300 123 4567</p>
+                        <p class="data-value">{{ cliente.telefono }}</p>
                     </div>
                 </div>
                 <div class="data-group">
                     <p class="data-label">NOMBRE COMPLETO</p>
-                    <p class="data-value data-name">JUAN PÉREZ RODRÍGUEZ</p>
+                    <p class="data-value data-name">{{ cliente.nombre }}</p>
                 </div>
                 <div class="data-group">
                     <p class="data-label">DIRECCIÓN</p>
-                    <p class="data-value data-address">Calle 123 # 45 - 67, Edificio Horizonte, Apto 402</p>
+                    <p class="data-value data-address">{{ cliente.direccion }}</p>
                 </div>
             </div>
         </div>
 
         <div class="card-footer">
-            <button id="btn-agregar-metodo-pago" class="btn-action">AGREGAR METODO DE PAGO</button>
+            <button class="btn-action" (click)="agregarMetodoPago()">AGREGAR METODO DE PAGO</button>
         </div>
     </div>
 
 </div>
-=======
->>>>>>> Stashed changes

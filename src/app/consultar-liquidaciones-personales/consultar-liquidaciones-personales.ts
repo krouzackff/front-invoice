@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ServicioLiquidacionPersonal } from '../servicios/servicio-liquidacion-personal';
-import { LiquidacionClienteResponse } from '../modelos/consultar-liquidacion-personal';
+import { LiquidacionClienteResponse } from '../modelos/response/consultar-liquidacion-personal';
 
 @Component({
   selector: 'app-consultar-liquidaciones-personales',

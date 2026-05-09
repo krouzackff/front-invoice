@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LiquidacionClienteResponse } from '../modelos/consultar-liquidacion-personal';
+import { LiquidacionClienteResponse } from '../modelos/response/consultar-liquidacion-personal';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
