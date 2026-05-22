@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ServicioAuth } from '../servicios/servicio-auth';
 
 @Component({
   selector: 'app-main-component',
@@ -9,11 +10,17 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class MainComponent {
 
-  constructor(private router: Router) {
-
-  }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private servicioAuth: ServicioAuth
+  ) {}
 
   navegarAPagina(ruta: string) {
-    this.router.navigate([ruta]);
+    this.router.navigate([ruta], { relativeTo: this.route });
+  }
+
+  cerrarSesion(): void {
+    this.servicioAuth.logout();
   }
 }

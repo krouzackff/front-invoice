@@ -54,3 +54,12 @@
     width: 34px;
     height: 34px;
 }
+
+.icono-logout {
+    cursor: pointer;
+    transition: 0.2s ease-in all;
+}
+
+.icono-logout:hover {
+    transform: translateY(-5px) scale(1.2);
+}
