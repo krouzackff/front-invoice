@@ -11,13 +11,15 @@ import { LiquidacionClienteResponse } from '../modelos/response/consultar-liquid
   styleUrl: './consultar-liquidaciones-personales.css',
 })
 export class ConsultarLiquidacionesPersonales implements OnInit {
-  
-  fechaFin: string='';
-  fechaInicio: string='';
-  liquidaciones: LiquidacionClienteResponse[] = [];
-  idCliente: number = 1;  // ID fijo para probar
 
-  constructor(private servicio: ServicioLiquidacionPersonal) {
+  fechaFin: string = '';
+  fechaInicio: string = '';
+  liquidaciones: LiquidacionClienteResponse[] = [];
+  idCliente: number = 1;
+
+  constructor(
+    private servicio: ServicioLiquidacionPersonal
+  ) {
     this.cargarLiquidaciones();
   }
 
@@ -30,11 +32,12 @@ export class ConsultarLiquidacionesPersonales implements OnInit {
       .subscribe({
         next: (data) => {
           this.liquidaciones = data;
-          console.log('Liquidaciones cargadas:', this.liquidaciones);
+          console.log('Respuesta de liquidaciones API:', data);
         },
         error: (error) => {
           console.error('Error al cargar liquidaciones:', error);
         }
       });
   }
-}
+
+}

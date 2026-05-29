@@ -80,25 +80,38 @@ export class RegistrarFormaDePagoCliente {
   verificarFormaPago(): void {
     if (!this.cliente) return;
 
-    this.servicioFormaPago.consultarFormaPagoActual(this.cliente.idCliente)
+    // Primero verifica si tiene forma de pago (endpoint 2.4)
+    this.servicioFormaPago.verificarSiTieneFormaPago(this.cliente.idCliente)
       .subscribe({
-        next: (data) => {
-          this.formaPagoActual = data;
-          this.tieneFormaPago = true;
-          this.formaPagoSeleccionada = data.formaPago;
-          
-          if (this.tieneFormaPago) {
-            this.mostrarFormularioPago = false;
-          }
-          
-          this.cdr.detectChanges(); // ✅ Forzar actualización de UI
-        },
-        error: (error) => {
-          if (error.status === 404) {
+        next: (verificacion) => {
+          if (verificacion.tieneFormaPago) {
+            // Si tiene, consulta la forma de pago actual (endpoint 2.3)
+            this.servicioFormaPago.consultarFormaPagoActual(this.cliente.idCliente)
+              .subscribe({
+                next: (data) => {
+                  this.formaPagoActual = data;
+                  this.tieneFormaPago = true;
+                  this.formaPagoSeleccionada = data.formaPago;
+                  this.mostrarFormularioPago = false;
+                  this.cdr.detectChanges();
+                },
+                error: (error) => {
+                  console.error('Error al consultar forma de pago actual:', error);
+                  this.cdr.detectChanges();
+                }
+              });
+          } else {
             this.tieneFormaPago = false;
             this.mostrarFormularioPago = true;
-            this.cdr.detectChanges(); // ✅ Forzar actualización
+            this.cdr.detectChanges();
           }
+        },
+        error: (error) => {
+          // Si falla la verificación, asumir que no tiene forma de pago
+          this.tieneFormaPago = false;
+          this.mostrarFormularioPago = true;
+          this.cdr.detectChanges();
+          console.error('Error al verificar forma de pago:', error);
         }
       });
   }

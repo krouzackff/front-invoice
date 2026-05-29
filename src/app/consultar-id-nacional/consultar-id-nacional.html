@@ -1,80 +1,115 @@
 <!-- consultar-id-nacional.html -->
-<div class="container">
+<div class="page-wrapper">
 
-    <div class="page-header">
-        <h1>BÚSQUEDA DE CLIENTE</h1>
-        <p class="subtitle">Módulo de Asesor Comercial</p>
+  <!-- PAGE HEADER CARD -->
+  <div class="page-header-card">
+    <div class="page-header-icon">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+      </svg>
     </div>
+    <div>
+      <h2>Busqueda de Cliente</h2>
+      <p>Modulo de Asesor Comercial — Identificacion por ID nacional o ID de base de datos</p>
+    </div>
+  </div>
 
-    <hr class="divider">
-
-    <div class="search-section">
-        <label for="input-identificador">ID NACIONAL O ID DE CLIENTE</label>
+  <!-- SEARCH CARD -->
+  <div class="search-card">
+    <div class="search-card-body">
+      <div class="form-group">
+        <label for="input-identificador" class="form-label">
+          ID Nacional o ID de Cliente
+        </label>
         <div class="search-row">
-            <input
-                id="input-identificador"
-                type="text"
-                placeholder="Ej: 12345678 (cédula) o 100 (ID)"
-                class="inputLupa"
-                [(ngModel)]="identificador"
-                (keyup.enter)="buscarCliente()"
-            >
-            <button class="btn-buscar" (click)="buscarCliente()">BUSCAR</button>
+          <input
+            id="input-identificador"
+            type="text"
+            placeholder="Ej: 12345678 (cedula) o 100 (ID)"
+            class="inputLupa"
+            [(ngModel)]="identificador"
+            (keyup.enter)="buscarCliente()"
+          >
+          <button class="btn-search" (click)="buscarCliente()" id="btn-buscar-cliente">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5z"/>
+            </svg>
+            Buscar
+          </button>
         </div>
-        <small class="search-hint">Puedes buscar por cédula o por ID de base de datos</small>
+        <span class="form-hint">Puedes buscar por cedula o por ID de base de datos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOADING CARD -->
+  <div class="loading-card" *ngIf="cargando">
+    <div class="loader"></div>
+    <div>
+      <p class="loading-title">Buscando cliente...</p>
+      <p class="loading-sub" *ngIf="buscandoEnSegundoEndpoint">No encontrado por ID. Intentando por cedula...</p>
+    </div>
+  </div>
+
+  <!-- ERROR CARD -->
+  <div class="feedback-card feedback-card--error" *ngIf="errorMessage && !cargando">
+    <span class="feedback-icon">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
+    </span>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- RESULT CARD -->
+  <div class="result-card" *ngIf="cliente && !cargando">
+    <div class="result-card-header">
+      <span class="result-card-label">Resultado de busqueda</span>
+      <span class="result-badge">Encontrado</span>
     </div>
 
-    <!-- Indicador de carga -->
-    <div class="loading-message" *ngIf="cargando">
-        <span>Buscando cliente...</span>
-        <span class="second-attempt" *ngIf="buscandoEnSegundoEndpoint">
-            (No encontrado por ID, intentando por cédula...)
-        </span>
-    </div>
+    <div class="client-info-grid">
 
-    <!-- Mensaje de error -->
-    <div class="error-message" *ngIf="errorMessage && !cargando">
-        <span class="error-icon">⊘</span>
-        {{ errorMessage }}
-    </div>
+      <!-- ID destacado -->
+      <div class="client-id-panel">
+        <span class="client-id-label">ID de Base de Datos</span>
+        <span class="client-id-value">{{ cliente.idCliente }}</span>
+      </div>
 
-    <!-- Resultado de búsqueda -->
-    <div class="result-section" *ngIf="cliente && !cargando">
-        <p class="result-label">RESULTADO DE BÚSQUEDA</p>
+      <div class="client-divider"></div>
 
-        <div class="client-card">
-            <div class="client-card-left">
-                <p class="data-label">ID DE BASE DE DATOS</p>
-                <p class="data-id">{{ cliente.idCliente }}</p>
-            </div>
-
-            <div class="client-card-divider"></div>
-
-            <div class="client-card-right">
-                <div class="data-row">
-                    <div class="data-group">
-                        <p class="data-label">ID NACIONAL</p>
-                        <p class="data-value">{{ cliente.idNacional }}</p>
-                    </div>
-                    <div class="data-group">
-                        <p class="data-label">TELÉFONO</p>
-                        <p class="data-value">{{ cliente.telefono }}</p>
-                    </div>
-                </div>
-                <div class="data-group">
-                    <p class="data-label">NOMBRE COMPLETO</p>
-                    <p class="data-value data-name">{{ cliente.nombre }}</p>
-                </div>
-                <div class="data-group">
-                    <p class="data-label">DIRECCIÓN</p>
-                    <p class="data-value data-address">{{ cliente.direccion }}</p>
-                </div>
-            </div>
+      <!-- Datos del cliente -->
+      <div class="client-data-panel">
+        <div class="client-data-row">
+          <div class="client-data-group">
+            <span class="data-label">ID Nacional</span>
+            <span class="data-value">{{ cliente.idNacional }}</span>
+          </div>
+          <div class="client-data-group">
+            <span class="data-label">Telefono</span>
+            <span class="data-value">{{ cliente.telefono }}</span>
+          </div>
         </div>
-
-        <div class="card-footer">
-            <button class="btn-action" (click)="agregarMetodoPago()">AGREGAR METODO DE PAGO</button>
+        <div class="client-data-group">
+          <span class="data-label">Nombre Completo</span>
+          <span class="data-value data-name">{{ cliente.nombre }}</span>
         </div>
+        <div class="client-data-group">
+          <span class="data-label">Direccion</span>
+          <span class="data-value data-address">{{ cliente.direccion }}</span>
+        </div>
+      </div>
+
     </div>
+
+    <div class="result-card-footer">
+      <button class="btn-action" (click)="agregarMetodoPago()" id="btn-agregar-pago">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+          <path d="M20 4H4c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+        </svg>
+        Agregar Metodo de Pago
+      </button>
+    </div>
+  </div>
 
 </div>

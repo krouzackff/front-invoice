@@ -1,0 +1,315 @@
+<!-- gestion-pedido.html -->
+<div class="gestion-container">
+
+  <!-- ══ BUSCADOR ══ -->
+  <div class="search-card">
+    <div class="search-card-header">
+      <div class="search-card-icon-box">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20 6h-2.18c.07-.44.18-.88.18-1.35C18 2.99 16.01 1 13.65 1 12.26 1 11 1.67 10.18 2.72L9 4.14 7.82 2.72C7 1.67 5.74 1 4.35 1 1.99 1 0 2.99 0 5.35c0 .47.11.91.18 1.35H0v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-5.35-3c1.19 0 2.15.96 2.15 2.15 0 1.19-.96 2.15-2.15 2.15S12.5 6.34 12.5 5.15C12.5 3.96 13.46 3 14.65 3z"/>
+        </svg>
+      </div>
+      <div>
+        <h2 class="search-card-title">Gestion de Pedido</h2>
+        <p class="search-card-subtitle">Consulta el detalle completo de un pedido y gestiona sus liquidaciones</p>
+      </div>
+    </div>
+
+    <div class="search-card-body">
+      <div class="search-row">
+        <div class="input-wrapper">
+          <label for="input-id-pedido" class="input-label">ID del Pedido</label>
+          <div class="input-group">
+            <span class="input-prefix">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                <path d="M7 9H2V7h5v2zm0 3H2v-2h5v2zm13.59 7l-3.83-3.83c-.8.52-1.74.83-2.76.83-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5c0 1.02-.31 1.96-.83 2.75L22 17.59 20.59 19zM17 11c0-1.65-1.35-3-3-3s-3 1.35-3 3 1.35 3 3 3 3-1.35 3-3z"/>
+              </svg>
+            </span>
+            <input
+              id="input-id-pedido"
+              type="number"
+              placeholder="Ej: 1024"
+              [(ngModel)]="idPedido"
+              (keyup.enter)="buscarPedido()"
+              class="search-input"
+            >
+          </div>
+        </div>
+        <button
+          id="btn-buscar-pedido"
+          class="btn-search"
+          (click)="buscarPedido()"
+          [disabled]="buscando"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+          {{ buscando ? 'Consultando...' : 'Buscar Pedido' }}
+        </button>
+      </div>
+
+      <div class="error-msg" *ngIf="errorBusqueda">{{ errorBusqueda }}</div>
+    </div>
+  </div>
+
+  <!-- ══ LOADER ══ -->
+  <div class="loader-card" *ngIf="buscando">
+    <div class="loader"></div>
+    <div>
+      <p class="loader-title">Consultando pedido</p>
+      <p class="loader-sub"># {{ idPedido }}</p>
+    </div>
+  </div>
+
+  <!-- ══ RESULTADOS ══ -->
+  <div class="results-grid" *ngIf="pedidoCargado">
+
+    <!-- Total del Pedido -->
+    <div class="info-card" *ngIf="totalPedido">
+      <div class="info-card-header info-card-header--blue">
+        <span class="info-card-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+          </svg>
+        </span>
+        <div>
+          <h3>Total del Pedido</h3>
+          <span class="info-card-sub">Resumen financiero</span>
+        </div>
+      </div>
+      <div class="info-card-body">
+        <div class="stat-row">
+          <span class="stat-label">ID Pedido</span>
+          <span class="stat-value"># {{ totalPedido.idPedido }}</span>
+        </div>
+        <div class="stat-row stat-row--highlight">
+          <span class="stat-label">Total a Pagar</span>
+          <span class="stat-value stat-value--amount">{{ totalPedido.totalPedido | number:'1.2-2' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pago de Transporte -->
+    <div class="info-card" *ngIf="pagoTransporte">
+      <div class="info-card-header info-card-header--cyan">
+        <span class="info-card-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+          </svg>
+        </span>
+        <div>
+          <h3>Pago de Transporte</h3>
+          <span class="info-card-sub">Liquidacion del transportador</span>
+        </div>
+      </div>
+      <div class="info-card-body">
+        <div class="stat-row">
+          <span class="stat-label">Forma de Pago</span>
+          <span class="badge" [ngClass]="pagoTransporte.formaPago === 'CONTRA_ENTREGA' ? 'badge-orange' : 'badge-blue'">
+            {{ pagoTransporte.formaPago }}
+          </span>
+        </div>
+        <div class="stat-row" *ngIf="pagoTransporte.valorContraEntrega">
+          <span class="stat-label">Valor Contra Entrega</span>
+          <span class="stat-value stat-value--amount">{{ pagoTransporte.valorContraEntrega | number:'1.2-2' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forma de Pago del Cliente -->
+    <div class="info-card" *ngIf="tieneFormaPagoCliente !== null">
+      <div class="info-card-header info-card-header--purple">
+        <span class="info-card-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </span>
+        <div>
+          <h3>Forma de Pago del Cliente</h3>
+          <span class="info-card-sub">Metodo registrado</span>
+        </div>
+      </div>
+      <div class="info-card-body">
+        <div *ngIf="tieneFormaPagoCliente && formaPagoCliente; else sinFormaPago">
+          <div class="stat-row">
+            <span class="stat-label">ID Cliente</span>
+            <span class="stat-value"># {{ formaPagoCliente.idCliente }}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Metodo</span>
+            <span class="badge badge-green">{{ formaPagoCliente.formaPago }}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Registrado</span>
+            <span class="stat-value stat-value--date">{{ formaPagoCliente.fechaRegistro | date:'yyyy/MM/dd HH:mm' }}</span>
+          </div>
+        </div>
+        <ng-template #sinFormaPago>
+          <div class="empty-state-inline">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            <span>El cliente no tiene forma de pago registrada</span>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ CREAR LIQUIDACION CLIENTE ══ -->
+  <div class="action-card" *ngIf="pedidoCargado">
+    <button
+      id="btn-toggle-liq-cliente"
+      class="action-card-toggle"
+      (click)="toggleSeccionCliente()"
+    >
+      <div class="action-card-toggle-left">
+        <span class="action-card-toggle-icon action-card-toggle-icon--blue">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+          </svg>
+        </span>
+        <div>
+          <span class="action-card-toggle-title">Crear Liquidacion de Cliente</span>
+          <span class="action-card-toggle-hint">Ingrese los datos para registrar una nueva liquidacion</span>
+        </div>
+      </div>
+      <span class="action-card-chevron" [class.open]="seccionLiqCliente">&#9654;</span>
+    </button>
+
+    <div class="success-card" *ngIf="resultadoLiqCliente">
+      <span class="success-card-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+      </span>
+      <div>
+        <strong>Liquidacion # {{ resultadoLiqCliente.idLiquidacion }} creada correctamente</strong>
+        <p>Estado: <span class="badge badge-orange">{{ resultadoLiqCliente.estadoLiquidacion }}</span></p>
+        <p>Monto: <strong>{{ resultadoLiqCliente.montoLiquidado | number:'1.2-2' }}</strong></p>
+        <p>Fecha: {{ resultadoLiqCliente.fechaLiquidacion | date:'yyyy/MM/dd HH:mm' }}</p>
+      </div>
+    </div>
+
+    <div class="action-form" *ngIf="seccionLiqCliente">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="liq-cliente-id-pedido" class="form-label">ID Pedido</label>
+          <input id="liq-cliente-id-pedido" type="number" [(ngModel)]="liqCliente.idPedido" readonly class="input-readonly">
+        </div>
+        <div class="form-group">
+          <label for="liq-cliente-id-cliente" class="form-label">ID Cliente *</label>
+          <input id="liq-cliente-id-cliente" type="number" placeholder="Ej: 5" [(ngModel)]="liqCliente.idCliente">
+        </div>
+        <div class="form-group">
+          <label for="liq-cliente-forma-pago" class="form-label">Forma de Pago *</label>
+          <select id="liq-cliente-forma-pago" [(ngModel)]="liqCliente.formaPago">
+            <option value="">-- Seleccione --</option>
+            <option value="EFECTIVO">Efectivo</option>
+            <option value="TRANSFERENCIA">Transferencia</option>
+            <option value="TARJETA_CREDITO">Tarjeta de Credito</option>
+            <option value="CONTRA_ENTREGA">Contra Entrega</option>
+            <option value="CARTERA_COMERCIAL">Cartera Comercial</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="liq-cliente-monto" class="form-label">Monto Liquidado *</label>
+          <input id="liq-cliente-monto" type="number" step="0.01" placeholder="Ej: 1500.00" [(ngModel)]="liqCliente.montoLiquidado">
+        </div>
+      </div>
+      <div class="error-msg" *ngIf="errorLiqCliente">{{ errorLiqCliente }}</div>
+      <div class="action-form-footer">
+        <button
+          id="btn-crear-liq-cliente"
+          class="btn-submit"
+          (click)="crearLiquidacionCliente()"
+          [disabled]="guardandoLiqCliente"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+          </svg>
+          {{ guardandoLiqCliente ? 'Creando...' : 'Crear Liquidacion' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CREAR LIQUIDACION TRANSPORTISTA ══ -->
+  <div class="action-card" *ngIf="pedidoCargado">
+    <button
+      id="btn-toggle-liq-transportista"
+      class="action-card-toggle action-card-toggle--cyan"
+      (click)="toggleSeccionTransportista()"
+    >
+      <div class="action-card-toggle-left">
+        <span class="action-card-toggle-icon action-card-toggle-icon--cyan">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z"/>
+          </svg>
+        </span>
+        <div>
+          <span class="action-card-toggle-title">Crear Liquidacion de Transportista</span>
+          <span class="action-card-toggle-hint">Registrar pago al transportador del pedido</span>
+        </div>
+      </div>
+      <span class="action-card-chevron" [class.open]="seccionLiqTransportista">&#9654;</span>
+    </button>
+
+    <div class="success-card" *ngIf="resultadoLiqTransportista">
+      <span class="success-card-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+      </span>
+      <div>
+        <strong>Liquidacion # {{ resultadoLiqTransportista.idLiquidacion }} creada correctamente</strong>
+        <p>Monto Calculado: <strong>{{ resultadoLiqTransportista.montoCalculado | number:'1.2-2' }}</strong></p>
+        <p>Fecha: {{ resultadoLiqTransportista.fechaLiquidacion | date:'yyyy/MM/dd HH:mm' }}</p>
+      </div>
+    </div>
+
+    <div class="action-form" *ngIf="seccionLiqTransportista">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="liq-trans-id-pedido" class="form-label">ID Pedido</label>
+          <input id="liq-trans-id-pedido" type="number" [(ngModel)]="liqTransportista.idPedido" readonly class="input-readonly">
+        </div>
+        <div class="form-group">
+          <label for="liq-trans-id-transportista" class="form-label">ID Transportista *</label>
+          <input id="liq-trans-id-transportista" type="number" placeholder="Ej: 8" [(ngModel)]="liqTransportista.idTransportista">
+        </div>
+        <div class="form-group">
+          <label for="liq-trans-monto" class="form-label">Monto Calculado *</label>
+          <input id="liq-trans-monto" type="number" step="0.01" placeholder="Ej: 250.00" [(ngModel)]="liqTransportista.montoCalculado">
+        </div>
+      </div>
+      <div class="error-msg" *ngIf="errorLiqTransportista">{{ errorLiqTransportista }}</div>
+      <div class="action-form-footer">
+        <button
+          id="btn-crear-liq-transportista"
+          class="btn-submit btn-submit--cyan"
+          (click)="crearLiquidacionTransportista()"
+          [disabled]="guardandoLiqTransportista"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+          </svg>
+          {{ guardandoLiqTransportista ? 'Creando...' : 'Crear Liquidacion' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ESTADO VACIO ══ -->
+  <div class="empty-state" *ngIf="!buscando && !pedidoCargado && !idPedido">
+    <div class="empty-state-icon">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36">
+        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+      </svg>
+    </div>
+    <p class="empty-state-title">Sin pedido seleccionado</p>
+    <p class="empty-state-hint">Ingrese el ID de un pedido para visualizar su informacion completa</p>
+  </div>
+
+</div>

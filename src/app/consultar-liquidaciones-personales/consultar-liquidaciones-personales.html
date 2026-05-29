@@ -1,58 +1,119 @@
-<div class="app">
-    <div class="dashboard">
-        <input type="date" [(ngModel)]="fechaInicio">
-        <input type="date" [(ngModel)]="fechaFin">
-        <button (click)="cargarLiquidaciones()">Buscar</button>
-    </div>
+<div class="page-wrapper">
 
-    <div class="table-container up-radius">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>ID PEDIDO</th>
-                    <th>ID CLIENTE</th>
-                    <th>FORMA DE PAGO</th>
-                    <th>ESTADO</th>
-                    <th>FECHA DE LIQUIDACION</th>
-                    <th>MONTO LIQUIDADO</th>
-                </tr>
-            </thead>
-        </table>
+  <!-- PAGE HEADER CARD -->
+  <div class="page-header-card">
+    <div class="page-header-icon">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+      </svg>
     </div>
-    <div class="table-container down-radius">
-        <table>
-            <tbody>
-                <tr *ngIf="liquidaciones.length === 0">
-                    <td colspan="8" style="text-align: center;">No hay liquidaciones para mostrar</td>
-                </tr>
-                <tr *ngFor="let liquidacion of liquidaciones">
-                    <td>{{ liquidacion.idLiquidacion }}</td>
-                    <td>{{ liquidacion.idPedido }}</td>
-                    <td>{{ liquidacion.idCliente }}</td>
-                    <td>
-                        <span class="badge forma-pago"
-                                [ngClass]="{
-                                    'cuenta': liquidacion.formaPago === 'CUENTA',
-                                    'efectivo': liquidacion.formaPago === 'EFECTIVO'
-                                }">
-                                {{ liquidacion.formaPago }}
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge estado"
-                                [ngClass]="{
-                                    'pagada': liquidacion.estadoLiquidacion === 'PAGADA',
-                                    'pendiente': liquidacion.estadoLiquidacion === 'PENDIENTE'
-                                }">
-                                {{ liquidacion.estadoLiquidacion }}
-                        </span>
-                    </td>
-                    <td>{{ liquidacion.fechaLiquidacion | date:'yyyy/MM/dd' }}</td>  <!-- ← Formato yyyy/MM/dd -->
+    <div>
+      <h2>Liquidaciones de Cliente</h2>
+      <p>Consulta el historial de liquidaciones por cliente en un rango de fechas</p>
+    </div>
+  </div>
 
-                    <td>{{ liquidacion.montoLiquidado | number:'1.0-0' }}</td>  <!-- ← Divide miles con punto -->
-                </tr>
-            </tbody>
-        </table>
+  <!-- FILTER CARD -->
+  <div class="filter-card">
+    <div class="filter-card-label">Filtros de busqueda</div>
+    <div class="filter-row">
+      <div class="filter-group">
+        <label class="filter-label">ID Cliente</label>
+        <input type="number" placeholder="Ej: 15" [(ngModel)]="idCliente" id="input-id-cliente">
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Fecha Inicio</label>
+        <input type="date" [(ngModel)]="fechaInicio" id="input-fecha-inicio">
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Fecha Fin</label>
+        <input type="date" [(ngModel)]="fechaFin" id="input-fecha-fin">
+      </div>
+      <button class="btn-filter" (click)="cargarLiquidaciones()" id="btn-buscar-liquidaciones">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5z"/>
+        </svg>
+        Buscar
+      </button>
     </div>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="table-card">
+    <div class="table-card-header">
+      <span class="table-card-title">Resultados</span>
+      <span class="table-card-count">{{ liquidaciones.length }} registro(s)</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>ID Pedido</th>
+            <th>ID Cliente</th>
+            <th>Forma de Pago</th>
+            <th>Estado</th>
+            <th>Fecha Liquidacion</th>
+            <th>Monto Liquidado</th>
+            <th>PDF</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="liquidaciones.length === 0">
+            <td colspan="8">
+              <div class="table-empty">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+                  <path d="M20 6h-2.18c.07-.44.18-.88.18-1.35C18 2.99 16.01 1 13.65 1 12.26 1 11 1.67 10.18 2.72L9 4.14 7.82 2.72C7 1.67 5.74 1 4.35 1 1.99 1 0 2.99 0 5.35c0 .47.11.91.18 1.35H0v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/>
+                </svg>
+                <span>No hay liquidaciones para mostrar</span>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let liquidacion of liquidaciones">
+            <td><span class="id-chip">{{ liquidacion.idLiquidacion }}</span></td>
+            <td><span class="id-chip id-chip--secondary">{{ liquidacion.idPedido }}</span></td>
+            <td><span class="id-chip id-chip--secondary">{{ liquidacion.idCliente }}</span></td>
+            <td>
+              <span class="badge"
+                [ngClass]="{
+                  'badge-blue':   liquidacion.formaPago === 'CUENTA' || liquidacion.formaPago === 'TRANSFERENCIA',
+                  'badge-green':  liquidacion.formaPago === 'EFECTIVO',
+                  'badge-orange': liquidacion.formaPago === 'CONTRA_ENTREGA'
+                }">
+                {{ liquidacion.formaPago }}
+              </span>
+            </td>
+            <td>
+              <span class="badge"
+                [ngClass]="{
+                  'badge-green':  liquidacion.estadoLiquidacion === 'ENTREGADO_COMPLETO',
+                  'badge-orange': liquidacion.estadoLiquidacion === 'ENVIADO',
+                  'badge-red':    liquidacion.estadoLiquidacion === 'RECHAZO_PARCIAL' || liquidacion.estadoLiquidacion === 'NO_ENTREGADO' || liquidacion.estadoLiquidacion === 'DEVOLUCION_ERROR_EMPRESA' || liquidacion.estadoLiquidacion === 'FALTANTE_INVENTARIO'
+                }">
+                {{ liquidacion.estadoLiquidacion }}
+              </span>
+            </td>
+            <td class="td-date">{{ liquidacion.fechaLiquidacion | date:'yyyy/MM/dd' }}</td>
+            <td class="td-amount">{{ liquidacion.montoLiquidado | number:'1.0-0' }}</td>
+            <td>
+              <a *ngIf="liquidacion.uriPdf"
+                 class="btn-pdf"
+                 [href]="liquidacion.uriPdf"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 [id]="'btn-pdf-' + liquidacion.idLiquidacion"
+                 download>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
+                  <path d="M5 4h8l4 4v12H5V4zm8 0v4h4M9 13h6M9 16h6M9 10h3"/>
+                </svg>
+                Descargar
+              </a>
+              <span *ngIf="!liquidacion.uriPdf" class="pdf-na">—</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>

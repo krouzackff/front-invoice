@@ -1,20 +1,117 @@
-<div class="top-bar">   
-    <span class="tooltip-icon" data-tooltip="consultar liquidaciones personales">
-        <img src="person-solid-full.svg" alt="Usuario" class="icono" (click)="navegarAPagina('consultar-liquidaciones-personales')">
-    </span>
-    <span class="tooltip-icon" data-tooltip="consultar liquidaciones transportista">
-        <img src="truck-solid-full.svg" alt="Usuario" class="icono" (click)="navegarAPagina('consultar-liquidaciones-transportista')">
-    </span>
-    <span class="tooltip-icon" data-tooltip="consultar liquidaciones contador">
-        <img src="file-invoice-solid-full.svg" alt="Usuario" class="icono" (click)="navegarAPagina('consultar-liquidaciones-contador')">
-    </span>
-    <span class="tooltip-icon" data-tooltip="consultar id nacional">
-        <img src="id-badge-solid-full.svg" alt="Usuario" class="icono" (click)="navegarAPagina('consultar-id-nacional')">
-    </span>
-    <span class="tooltip-icon" data-tooltip="registrar forma de pago">
-        <img src="cash-register-solid-full.svg" alt="Usuario" class="icono" (click)="navegarAPagina('registrar-forma-de-pago')">
-    </span>
+<div class="layout-container">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand-logo">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v-1.5H8V17zm0-3h8v-1.5H8V14zm0-3h4v-1.5H8V11z"/>
+          </svg>
+        </div>
+        <div>
+          <h2>Invoice System</h2>
+          <p>Gestión y Liquidación</p>
+        </div>
+      </div>
+    </div>
+
+    <ul class="nav-list">
+
+      <li class="nav-section-label">Módulos</li>
+
+      <!-- CLIENTE -->
+      <li class="nav-item">
+        <button class="nav-btn" (click)="toggleMenu('cliente')" [class.active]="menuActivo === 'cliente'">
+          <span class="nav-btn-inner">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            </span>
+            <span class="nav-label">Cliente</span>
+          </span>
+          <i class="chevron" [class.open]="menuActivo === 'cliente'">&#9654;</i>
+        </button>
+        <div class="submenu" [class.open]="menuActivo === 'cliente'">
+          <a (click)="navegarAPagina('consultar-liquidaciones-personales')">Consultar liquidaciones</a>
+        </div>
+      </li>
+
+      <!-- TRANSPORTADOR -->
+      <li class="nav-item">
+        <button class="nav-btn" (click)="toggleMenu('transportador')" [class.active]="menuActivo === 'transportador'">
+          <span class="nav-btn-inner">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            </span>
+            <span class="nav-label">Transportador</span>
+          </span>
+          <i class="chevron" [class.open]="menuActivo === 'transportador'">&#9654;</i>
+        </button>
+        <div class="submenu" [class.open]="menuActivo === 'transportador'">
+          <a (click)="navegarAPagina('consultar-liquidaciones-transportista')">Consultar liquidaciones</a>
+        </div>
+      </li>
+
+      <!-- CONTADOR -->
+      <li class="nav-item">
+        <button class="nav-btn" (click)="toggleMenu('contador')" [class.active]="menuActivo === 'contador'">
+          <span class="nav-btn-inner">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            </span>
+            <span class="nav-label">Contador</span>
+          </span>
+          <i class="chevron" [class.open]="menuActivo === 'contador'">&#9654;</i>
+        </button>
+        <div class="submenu" [class.open]="menuActivo === 'contador'">
+          <a (click)="navegarAPagina('consultar-liquidaciones-contador')">Consultar liquidaciones</a>
+        </div>
+      </li>
+
+      <!-- ASESOR COMERCIAL -->
+      <li class="nav-item">
+        <button class="nav-btn" (click)="toggleMenu('asesor')" [class.active]="menuActivo === 'asesor'">
+          <span class="nav-btn-inner">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+            </span>
+            <span class="nav-label">Asesor Comercial</span>
+          </span>
+          <i class="chevron" [class.open]="menuActivo === 'asesor'">&#9654;</i>
+        </button>
+        <div class="submenu" [class.open]="menuActivo === 'asesor'">
+          <a (click)="navegarAPagina('consultar-id-nacional')">Consultar ID Nacional</a>
+          <a (click)="navegarAPagina('registrar-forma-de-pago')">Registrar Forma de Pago</a>
+          <a (click)="navegarAPagina('gestion-pedido')">Gestion de Pedido</a>
+        </div>
+      </li>
+
+    </ul>
+
+    <div class="sidebar-footer">
+      <p class="sidebar-footer-text">v1.0 &middot; Invoice System</p>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-content">
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <div class="top-bar-breadcrumb">
+          <span class="crumb">Invoice System</span>
+          <span class="crumb-sep">&#x203A;</span>
+          <span class="crumb-active">Panel de Administración</span>
+        </div>
+      </div>
+      <div class="top-bar-right">
+        <span class="top-bar-dot"></span>
+        <span class="top-bar-status">Sistema activo</span>
+      </div>
+    </div>
+
+    <div class="enrouter">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
 </div>
-<div class="enrouter">
-    <router-outlet></router-outlet>
-</div>|

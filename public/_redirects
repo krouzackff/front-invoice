@@ -1,0 +1,5 @@
+# Proxy rules for backend APIs (To fix Mixed Content HTTPS -> HTTP)
+/api/*  http://3.133.87.42:8080/api/:splat  200
+
+# Fallback for Angular SPA routing
+/*      /index.html   200

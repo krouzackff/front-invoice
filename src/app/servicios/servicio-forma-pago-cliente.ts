@@ -11,6 +11,16 @@ export class ServicioFormaPagoCliente {
 
   constructor(private http: HttpClient) {}
 
+  // 2.1 Consultar forma de pago por pedido (desde liquidación)
+  public consultarFormaPagoPorPedido(idPedido: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/pedidos/${idPedido}/forma-pago`);
+  }
+
+  // 2.2 Verificar si cliente tiene forma de pago por pedido
+  public verificarSiTieneFormaPagoPorPedido(idPedido: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/pedidos/${idPedido}/tiene-forma-pago`);
+  }
+
   // 2.3 Consultar forma de pago actual por ID de cliente
   public consultarFormaPagoActual(idCliente: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/clientes/${idCliente}/forma-pago`);
@@ -31,3 +41,4 @@ export class ServicioFormaPagoCliente {
     return this.http.put<any>(`${this.apiUrl}/clientes/${idCliente}/actualizar-forma-pago`, formaPagoCommand);
   }
 }
+

@@ -1,38 +1,140 @@
 <!-- consultar-liquidaciones-transportistas.html -->
-<div class="dashboard">
-    <input type="date" [(ngModel)]="fechaDeInicio">
-    <input type="date" [(ngModel)]="fechaDeFin">
-    <button (click)="cargarLiquidaciones()">Buscar</button>
+
+<!-- Modal de actualización de monto -->
+<div class="modal-overlay" *ngIf="liquidacionEditando" (click)="cerrarEditorMonto()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+        </svg>
+      </div>
+      <div>
+        <h3 class="modal-title">Actualizar Monto</h3>
+        <p class="modal-subtitle">Liquidacion # {{ liquidacionEditando.idLiquidacion }}</p>
+      </div>
+    </div>
+
+    <div class="form-group-modal">
+      <label>Nuevo Monto Calculado</label>
+      <input
+        id="input-nuevo-monto"
+        type="number"
+        step="0.01"
+        [(ngModel)]="nuevoMonto"
+        placeholder="Ej: 300.00"
+      >
+    </div>
+
+    <p class="error-modal" *ngIf="errorActualizacion">{{ errorActualizacion }}</p>
+
+    <div class="modal-actions">
+      <button class="btn-cancelar" (click)="cerrarEditorMonto()">Cancelar</button>
+      <button class="btn-confirmar" id="btn-confirmar-monto"
+              (click)="actualizarMonto()" [disabled]="actualizando">
+        {{ actualizando ? 'Actualizando...' : 'Confirmar' }}
+      </button>
+    </div>
+  </div>
 </div>
 
-<div class="table-container up-radius">
-    <table>
+<div class="page-wrapper">
+
+  <!-- PAGE HEADER CARD -->
+  <div class="page-header-card">
+    <div class="page-header-icon">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+      </svg>
+    </div>
+    <div>
+      <h2>Liquidaciones de Transportista</h2>
+      <p>Consulta y gestiona las liquidaciones asignadas a un transportador</p>
+    </div>
+  </div>
+
+  <!-- FILTER CARD -->
+  <div class="filter-card">
+    <div class="filter-card-label">Filtros de busqueda</div>
+    <div class="filter-row">
+      <div class="filter-group">
+        <label class="filter-label">ID Transportista</label>
+        <input type="number" placeholder="Ej: 8" [(ngModel)]="idTransportista" id="input-id-transportista">
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Fecha Inicio</label>
+        <input type="date" [(ngModel)]="fechaDeInicio" id="input-fecha-inicio">
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Fecha Fin</label>
+        <input type="date" [(ngModel)]="fechaDeFin" id="input-fecha-fin">
+      </div>
+      <button class="btn-filter" (click)="cargarLiquidaciones()" id="btn-buscar">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5z"/>
+        </svg>
+        Buscar
+      </button>
+      <button class="btn-filter btn-filter--secondary" (click)="filtrar()" id="btn-filtrar-fechas">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15">
+          <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+        </svg>
+        Filtrar fechas
+      </button>
+    </div>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="table-card">
+    <div class="table-card-header">
+      <span class="table-card-title">Resultados</span>
+      <span class="table-card-count">{{ liquidacionesFiltradas.length }} registro(s)</span>
+    </div>
+    <div class="table-scroll">
+      <table>
         <thead>
-            <tr>
-                <th>ID LIQUIDACIÓN</th>
-                <th>ID PEDIDO</th>
-                <th>ID TRANSPORTISTA</th>
-                <th>MONTO CALCULADO</th>
-                <th>FECHA LIQUIDACIÓN</th>
-            </tr>
+          <tr>
+            <th>ID Liquidacion</th>
+            <th>ID Pedido</th>
+            <th>ID Transportista</th>
+            <th>Monto Calculado</th>
+            <th>Fecha Liquidacion</th>
+            <th>Acciones</th>
+          </tr>
         </thead>
-    </table>
-</div>
-<div class="table-container down-radius">
-    <table>
         <tbody>
-            <tr *ngIf="liquidaciones.length === 0">
-                <td colspan="5" style="text-align: center;">
-                    No hay liquidaciones para mostrar
-                </td>
-            </tr>
-            <tr *ngFor="let liquidacion of liquidaciones">
-                <td>{{ liquidacion.idLiquidacion }}</td>
-                <td>{{ liquidacion.idPedido }}</td>
-                <td>{{ liquidacion.idTransportista }}</td>
-                <td>{{ liquidacion.montoCalculado | number:'1.2-2' }}</td>
-                <td>{{ liquidacion.fechaLiquidacion | date:'yyyy/MM/dd' }}</td>
-            </tr>
+          <tr *ngIf="liquidacionesFiltradas.length === 0">
+            <td colspan="6">
+              <div class="table-empty">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <span>No hay liquidaciones para mostrar</span>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let liquidacion of liquidacionesFiltradas">
+            <td><span class="id-chip">{{ liquidacion.idLiquidacion }}</span></td>
+            <td><span class="id-chip id-chip--secondary">{{ liquidacion.idPedido }}</span></td>
+            <td><span class="id-chip id-chip--secondary">{{ liquidacion.idTransportista }}</span></td>
+            <td class="td-amount">{{ liquidacion.montoCalculado | number:'1.2-2' }}</td>
+            <td class="td-date">{{ liquidacion.fechaLiquidacion | date:'yyyy/MM/dd' }}</td>
+            <td>
+              <button
+                class="btn-editar-monto"
+                [id]="'btn-monto-' + liquidacion.idLiquidacion"
+                (click)="abrirEditorMonto(liquidacion)"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
+                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                </svg>
+                Editar monto
+              </button>
+            </td>
+          </tr>
         </tbody>
-    </table>
+      </table>
+    </div>
+  </div>
+
 </div>
